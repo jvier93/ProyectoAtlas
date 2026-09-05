@@ -1,0 +1,8 @@
+[
+  {
+    "id": 1,
+    "nombre": "Didactica I",
+    "requiere_docente_adscriptor": true,
+    "requiere_grupo": true
+  }
+]

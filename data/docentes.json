@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "nombre": "Pitico",
+    "tipo": "didactica",
+    "lista_espera_ids": [],
+    "activas_ids": []
+  },
+  {
+    "id": 2,
+    "nombre": "Nacho",
+    "tipo": "adscriptor",
+    "lista_espera_ids": [],
+    "activas_ids": [
+      1
+    ]
+  }
+]
