@@ -14,5 +14,12 @@
     "activas_ids": [
       1
     ]
+  },
+  {
+    "id": 3,
+    "nombre": "Nacho2",
+    "tipo": "general",
+    "lista_espera_ids": [],
+    "activas_ids": []
   }
 ]

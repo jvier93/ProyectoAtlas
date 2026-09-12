@@ -1,7 +1,7 @@
-from models.grupo import Grupo
-from repositories.grupo_repository import GrupoRepository
-from services.docente_service import DocenteService
-from services.institucion_service import InstitucionService
+from domain.models.grupo import Grupo
+from domain.repositories.grupo_repository import GrupoRepository
+from domain.services.docente_service import DocenteService
+from domain.services.institucion_service import InstitucionService
 
 
 class GrupoService:

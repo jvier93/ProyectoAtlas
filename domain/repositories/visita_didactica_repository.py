@@ -1,5 +1,5 @@
-from models.visita_didactica import VisitaDidactica
-from repositories.json_repository import JsonStore
+from domain.models.visita_didactica import VisitaDidactica
+from domain.repositories.json_repository import JsonStore
 from types import SimpleNamespace
 
 

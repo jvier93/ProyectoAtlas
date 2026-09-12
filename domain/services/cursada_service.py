@@ -1,8 +1,8 @@
-from models.cursada import Cursada
-from repositories.cursada_repository import CursadaRepository
-from services.estudiante_service import EstudianteService
-from services.curso_service import CursoService
-from services.docente_service import DocenteService
+from domain.models.cursada import Cursada
+from domain.repositories.cursada_repository import CursadaRepository
+from domain.services.estudiante_service import EstudianteService
+from domain.services.curso_service import CursoService
+from domain.services.docente_service import DocenteService
 
 
 class CursadaService:

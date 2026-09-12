@@ -1,5 +1,5 @@
-from models.curso import Curso
-from repositories.curso_repository import CursoRepository
+from domain.models.curso import Curso
+from domain.repositories.curso_repository import CursoRepository
 
 
 class CursoService:
@@ -7,6 +7,9 @@ class CursoService:
         self.__repository = CursoRepository()
 
     def crear(self, nombre, requiere_docente_adscriptor=False, requiere_grupo=False):
+        if nombre is None or nombre == "" or not nombre.strip():
+            raise ValueError("El nombre del curso es obligatorio")
+
         id_nuevo = self.__repository.obtener_proximo_id()
         curso = Curso(id_nuevo, nombre, requiere_docente_adscriptor, requiere_grupo)
         return self.__repository.agregar(curso)

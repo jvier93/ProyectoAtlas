@@ -1,5 +1,5 @@
-from models.docente import Docente
-from repositories.json_repository import JsonStore
+from domain.models.docente import Docente
+from domain.repositories.json_repository import JsonStore
 
 
 class DocenteRepository:

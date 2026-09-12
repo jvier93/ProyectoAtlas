@@ -1,12 +1,12 @@
-from models.practica import Practica
-from models.curso import Curso
-from services.asistencia_service import AsistenciaService
-from repositories.practica_repository import PracticaRepository
-from services.cursada_service import CursadaService
-from services.docente_service import DocenteService
-from services.institucion_service import InstitucionService
-from services.grupo_service import GrupoService
-from services.visita_didactica_service import VisitaDidacticaService
+from domain.models.practica import Practica
+from domain.models.curso import Curso
+from domain.services.asistencia_service import AsistenciaService
+from domain.repositories.practica_repository import PracticaRepository
+from domain.services.cursada_service import CursadaService
+from domain.services.docente_service import DocenteService
+from domain.services.institucion_service import InstitucionService
+from domain.services.grupo_service import GrupoService
+from domain.services.visita_didactica_service import VisitaDidacticaService
 
 
 class PracticaService:

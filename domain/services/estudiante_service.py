@@ -1,12 +1,21 @@
-from models.estudiante import Estudiante
-from repositories.estudiante_repository import EstudianteRepository
+from domain.models.estudiante import Estudiante
+from domain.repositories.estudiante_repository import EstudianteRepository
 
 
 class EstudianteService:
     def __init__(self):
-        self.__repository =EstudianteRepository()
+        self.__repository = EstudianteRepository()
 
     def crear(self, nombre, puntuacionEnLista):
+        if nombre is None or nombre == "" or not nombre.strip():
+            raise ValueError("El nombre del estudiante es obligatorio")
+        if (
+            puntuacionEnLista is None
+            or puntuacionEnLista == ""
+            or not str(puntuacionEnLista).strip()
+        ):
+            raise ValueError("La puntuación en lista del estudiante es obligatoria")
+
         id_nuevo = self.__repository.obtener_proximo_id()
         estudiante = Estudiante(id_nuevo, nombre, puntuacionEnLista)
         return self.__repository.agregar(estudiante)

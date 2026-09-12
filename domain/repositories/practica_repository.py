@@ -1,5 +1,5 @@
-from models.practica import Practica
-from repositories.json_repository import JsonStore
+from domain.models.practica import Practica
+from domain.repositories.json_repository import JsonStore
 from types import SimpleNamespace
 
 

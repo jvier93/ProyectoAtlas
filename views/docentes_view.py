@@ -1,0 +1,112 @@
+import flet as ft
+from domain.services.docente_service import DocenteService
+from views.layout import ANCHO_TABLA, ESPACIADO_COLUMNAS
+
+
+def construir_vista_docentes(page: ft.Page, abrir_crear: callable) -> ft.Column:
+    """Construye la vista de docentes con sus acciones principales."""
+    servicio = DocenteService()
+
+    def mostrar_notificacion(mensaje: str, color: str):
+        page.show_dialog(
+            ft.SnackBar(
+                ft.Text(mensaje),
+                bgcolor=color,
+                show_close_icon=True,
+            )
+        )
+        page.update()
+
+    tabla = ft.DataTable(
+        columns=[
+            ft.DataColumn(ft.Text("Nombre")),
+            ft.DataColumn(ft.Text("Tipo")),
+        ],
+        rows=[],
+        column_spacing=ESPACIADO_COLUMNAS,
+        heading_row_color=ft.Colors.SURFACE,
+        bgcolor=ft.Colors.SURFACE,
+        width=ANCHO_TABLA,
+    )
+
+    def cargar_docentes():
+        tabla.rows.clear()
+        try:
+            docentes = servicio.listar()
+        except Exception:
+            tabla.rows.append(
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("No se pudieron cargar los docentes.")),
+                        ft.DataCell(ft.Text("")),
+                    ]
+                )
+            )
+            mostrar_notificacion(
+                "Ocurrió un error al cargar los docentes.",
+                ft.Colors.ERROR,
+            )
+            return
+
+        if not docentes:
+            tabla.rows.append(
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("No hay docentes cargados.")),
+                        ft.DataCell(ft.Text("")),
+                    ]
+                )
+            )
+            return
+
+        for docente in docentes:
+            tabla.rows.append(
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text(docente.nombre)),
+                        ft.DataCell(ft.Text(docente.tipo)),
+                    ]
+                )
+            )
+
+    cargar_docentes()
+
+    return ft.Column(
+        [
+            ft.Row(
+                [
+                    ft.Column(
+                        [
+                            ft.Text(
+                                "Docentes", size=28, weight=ft.FontWeight.BOLD
+                            ),
+                            ft.Text(
+                                "Gestiona los docentes disponibles",
+                                color=ft.Colors.SECONDARY,
+                            ),
+                        ],
+                        spacing=3,
+                        expand=True,
+                    ),
+                    ft.FilledButton(
+                        "Crear docente",
+                        icon=ft.Icons.ADD,
+                        on_click=abrir_crear,
+                    ),
+                ],
+                vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            ),
+            ft.Divider(),
+            ft.Container(
+                content=ft.Column(
+                    [tabla],
+                    expand=True,
+                    scroll=ft.ScrollMode.AUTO,
+                ),
+                expand=True,
+                bgcolor=ft.Colors.SURFACE,
+            ),
+        ],
+        expand=True,
+        spacing=18,
+    )
