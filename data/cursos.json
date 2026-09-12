@@ -4,5 +4,11 @@
     "nombre": "Didactica I",
     "requiere_docente_adscriptor": true,
     "requiere_grupo": true
+  },
+  {
+    "id": 2,
+    "nombre": "Didactica II",
+    "requiere_docente_adscriptor": false,
+    "requiere_grupo": false
   }
 ]

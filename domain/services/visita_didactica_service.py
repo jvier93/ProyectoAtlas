@@ -1,6 +1,6 @@
-from models.visita_didactica import VisitaDidactica
-from services.docente_service import DocenteService
-from repositories.visita_didactica_repository import VisitaDidacticaRepository
+from domain.models.visita_didactica import VisitaDidactica
+from domain.services.docente_service import DocenteService
+from domain.repositories.visita_didactica_repository import VisitaDidacticaRepository
 
 
 class VisitaDidacticaService:

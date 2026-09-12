@@ -1,5 +1,5 @@
-from models.curso import Curso
-from repositories.json_repository import JsonStore
+from domain.models.curso import Curso
+from domain.repositories.json_repository import JsonStore
 
 
 class CursoRepository:

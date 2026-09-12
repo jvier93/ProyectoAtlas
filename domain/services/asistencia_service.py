@@ -1,5 +1,5 @@
-from models.asistencia import Asistencia
-from repositories.asistencia_repository import AsistenciaRepository
+from domain.models.asistencia import Asistencia
+from domain.repositories.asistencia_repository import AsistenciaRepository
 
 
 class AsistenciaService:

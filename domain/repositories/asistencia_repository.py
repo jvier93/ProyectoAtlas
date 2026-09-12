@@ -1,25 +1,27 @@
-from models.estudiante import Estudiante
-from repositories.json_repository import JsonStore
+from domain.models.asistencia import Asistencia
+from domain.repositories.json_repository import JsonStore
 
 
-class EstudianteRepository:
-    def __init__(self, filename="data/estudiantes.json"):
+class AsistenciaRepository:
+    def __init__(self, filename="data/asistencias.json"):
         self.__store = JsonStore(
             filename, self.__serializar, self.__deserializar
         )
 
-    def __serializar(self, estudiante):
+    def __serializar(self, asistencia):
         return {
-            "id": estudiante.id,
-            "nombre": estudiante.nombre,
-            "puntuacionEnLista": estudiante.puntuacionEnLista,
+            "id": asistencia.id,
+            "fecha": asistencia.fecha,
+            "estado": asistencia.estado,
+            "observaciones": asistencia.observaciones,
         }
 
     def __deserializar(self, registro):
-        return Estudiante(
+        return Asistencia(
             registro["id"],
-            registro["nombre"],
-            registro["puntuacionEnLista"],
+            registro["fecha"],
+            registro["estado"],
+            registro.get("observaciones"),
         )
 
     def agregar(self, entidad):

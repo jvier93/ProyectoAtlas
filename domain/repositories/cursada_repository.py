@@ -1,5 +1,5 @@
-from models.cursada import Cursada
-from repositories.json_repository import JsonStore
+from domain.models.cursada import Cursada
+from domain.repositories.json_repository import JsonStore
 from types import SimpleNamespace
 
 

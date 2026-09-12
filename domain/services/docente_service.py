@@ -1,13 +1,15 @@
-from models.docente import Docente
-from repositories.docente_repository import DocenteRepository
+from domain.models.docente import Docente
+from domain.repositories.docente_repository import DocenteRepository
 
 
 class DocenteService:
     def __init__(self):
         self.__repository = DocenteRepository()
 
-   
     def crear(self, nombre, tipo="general"):
+        if nombre is None or nombre == "" or not nombre.strip():
+            raise ValueError("El nombre del docente es obligatorio")
+
         id_nuevo = self.__repository.obtener_proximo_id()
         docente = Docente(id_nuevo, nombre, tipo=tipo)
         return self.__repository.agregar(docente)
@@ -22,16 +24,14 @@ class DocenteService:
             docentes.append(docente)
         return docentes
 
-
     def actualizar(self, docente):
         return self.__repository.actualizar(docente)
 
     def eliminar(self, id):
         return self.__repository.eliminar(id)
 
-
     def asignar_practica(self, docente_id, practica_id):
-       #Asigna una practica y la agrega a activos, si no hay cupo la pone en espera.
+        # Asigna una practica y la agrega a activos, si no hay cupo la pone en espera.
         docente = self.obtener_por_id(docente_id)
         if docente is None or docente.tipo != "adscriptor":
             return None
@@ -45,9 +45,9 @@ class DocenteService:
         self.actualizar(docente)
         return False
 
-#Quita la practica en activos y si hay alguien en lista de espera lo promueve a activos cola (FIFO)
+    # Quita la practica en activos y si hay alguien en lista de espera lo promueve a activos cola (FIFO)
     def liberar_practica(self, docente_id, practica_id):
-       
+
         docente = self.obtener_por_id(docente_id)
         if docente is None or docente.tipo != "adscriptor":
             return None
@@ -59,13 +59,11 @@ class DocenteService:
         self.actualizar(docente)
         return practica_promovida_id
 
-      
         docente = self.obtener_por_id(docente_id)
         if docente and docente.tipo == "adscriptor":
             docente.encolar_en_lista_espera(practica)
             return self.actualizar(docente)
         return None
-
 
     def quitar_de_lista_espera(self, docente_id, practica):
         docente = self.obtener_por_id(docente_id)

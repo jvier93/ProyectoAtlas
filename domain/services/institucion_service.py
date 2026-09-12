@@ -1,14 +1,18 @@
-from models.institucion import Institucion
-from repositories.institucion_repository import InstitucionRepository
-from repositories.grupo_repository import GrupoRepository
+from domain.models.institucion import Institucion
+from domain.repositories.institucion_repository import InstitucionRepository
+from domain.repositories.grupo_repository import GrupoRepository
 
 
 class InstitucionService:
     def __init__(self):
         self.__repository = InstitucionRepository()
-      
 
     def crear(self, nombre, direccion):
+        if nombre is None or nombre == "" or not nombre.strip():
+            raise ValueError("El nombre de la institución es obligatorio")
+        if direccion is None or direccion == "" or not direccion.strip():
+            raise ValueError("La dirección de la institución es obligatoria")
+
         id_nuevo = self.__repository.obtener_proximo_id()
         institucion = Institucion(id_nuevo, nombre, direccion)
         return self.__repository.agregar(institucion)
@@ -17,6 +21,8 @@ class InstitucionService:
         return self.__repository.obtener_por_id(id)
 
     def listar(self):
+        #   raise ValueError("El método listar no está implementado en InstitucionService.")
+
         return self.__repository.listar()
 
     def actualizar(self, institucion):
@@ -25,7 +31,6 @@ class InstitucionService:
     def eliminar(self, id):
         return self.__repository.eliminar(id)
 
-  
         institucion = self.obtener_por_id(institucion_id)
         if institucion is None:
             raise ValueError("La institucion no existe")

@@ -1,5 +1,5 @@
-from models.grupo import Grupo
-from repositories.json_repository import JsonStore
+from domain.models.grupo import Grupo
+from domain.repositories.json_repository import JsonStore
 from types import SimpleNamespace
 
 

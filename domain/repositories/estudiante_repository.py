@@ -1,25 +1,25 @@
-from models.institucion import Institucion
-from repositories.json_repository import JsonStore
+from domain.models.estudiante import Estudiante
+from domain.repositories.json_repository import JsonStore
 
 
-class InstitucionRepository:
-    def __init__(self, filename="data/instituciones.json"):
+class EstudianteRepository:
+    def __init__(self, filename="data/estudiantes.json"):
         self.__store = JsonStore(
             filename, self.__serializar, self.__deserializar
         )
 
-    def __serializar(self, institucion):
+    def __serializar(self, estudiante):
         return {
-            "id": institucion.id,
-            "nombre": institucion.nombre,
-            "direccion": institucion.direccion,
+            "id": estudiante.id,
+            "nombre": estudiante.nombre,
+            "puntuacionEnLista": estudiante.puntuacionEnLista,
         }
 
     def __deserializar(self, registro):
-        return Institucion(
+        return Estudiante(
             registro["id"],
             registro["nombre"],
-            registro["direccion"],
+            registro["puntuacionEnLista"],
         )
 
     def agregar(self, entidad):
@@ -40,8 +40,8 @@ class InstitucionRepository:
     def actualizar(self, entidad):
         return self.__store.actualizar(entidad)
 
-    def obtener_proximo_id(self):
-        return self.__store.obtener_proximo_id()
-
     def eliminar(self, id):
         return self.__store.eliminar(id)
+
+    def obtener_proximo_id(self):
+        return self.__store.obtener_proximo_id()

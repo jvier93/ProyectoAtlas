@@ -1,27 +1,25 @@
-from models.asistencia import Asistencia
-from repositories.json_repository import JsonStore
+from domain.models.institucion import Institucion
+from domain.repositories.json_repository import JsonStore
 
 
-class AsistenciaRepository:
-    def __init__(self, filename="data/asistencias.json"):
+class InstitucionRepository:
+    def __init__(self, filename="data/instituciones.json"):
         self.__store = JsonStore(
             filename, self.__serializar, self.__deserializar
         )
 
-    def __serializar(self, asistencia):
+    def __serializar(self, institucion):
         return {
-            "id": asistencia.id,
-            "fecha": asistencia.fecha,
-            "estado": asistencia.estado,
-            "observaciones": asistencia.observaciones,
+            "id": institucion.id,
+            "nombre": institucion.nombre,
+            "direccion": institucion.direccion,
         }
 
     def __deserializar(self, registro):
-        return Asistencia(
+        return Institucion(
             registro["id"],
-            registro["fecha"],
-            registro["estado"],
-            registro.get("observaciones"),
+            registro["nombre"],
+            registro["direccion"],
         )
 
     def agregar(self, entidad):
@@ -42,8 +40,8 @@ class AsistenciaRepository:
     def actualizar(self, entidad):
         return self.__store.actualizar(entidad)
 
-    def eliminar(self, id):
-        return self.__store.eliminar(id)
-
     def obtener_proximo_id(self):
         return self.__store.obtener_proximo_id()
+
+    def eliminar(self, id):
+        return self.__store.eliminar(id)

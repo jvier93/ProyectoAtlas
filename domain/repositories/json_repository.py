@@ -6,6 +6,8 @@ from pathlib import Path
 class JsonStore:
     def __init__(self, filename, serializer, deserializer):
         self.__path = Path(filename)
+        if not self.__path.is_absolute():
+            self.__path = Path(__file__).resolve().parents[2] / self.__path
         self.__serializer = serializer
         self.__deserializer = deserializer
 
@@ -47,17 +49,10 @@ class JsonStore:
         return None
 
     def buscar(self, criterio):
-        return [
-            entidad
-            for entidad in self.listar()
-            if criterio(entidad)
-        ]
+        return [entidad for entidad in self.listar() if criterio(entidad)]
 
     def listar(self):
-        return [
-            self.__deserializer(registro)
-            for registro in self.__read_records()
-        ]
+        return [self.__deserializer(registro) for registro in self.__read_records()]
 
     def actualizar(self, entidad):
         registros = self.__read_records()
