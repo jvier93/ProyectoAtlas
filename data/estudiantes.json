@@ -1,12 +1,12 @@
 [
   {
     "id": 1,
-    "nombre": "Mariano",
-    "puntuacionEnLista": 100
+    "nombre": "Pablos",
+    "puntuacionEnLista": "100"
   },
   {
     "id": 2,
-    "nombre": "Nacho",
+    "nombre": "Mariano",
     "puntuacionEnLista": "100"
   }
 ]

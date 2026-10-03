@@ -1,9 +1,16 @@
 [
   {
     "id": 1,
-    "nombre": "Grupo A",
+    "nombre": "Info",
     "docente_id": 1,
-    "institucion_id": 1,
-    "horario": "Lunes 10:00-12:00"
+    "institucion_id": 18,
+    "horario": "18:00 a 23:00"
+  },
+  {
+    "id": 2,
+    "nombre": "grupo13",
+    "docente_id": null,
+    "institucion_id": 18,
+    "horario": "20"
   }
 ]

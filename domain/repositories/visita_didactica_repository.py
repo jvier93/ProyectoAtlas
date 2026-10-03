@@ -5,9 +5,7 @@ from types import SimpleNamespace
 
 class VisitaDidacticaRepository:
     def __init__(self, filename="data/visitas_didacticas.json"):
-        self.__store = JsonStore(
-            filename, self.__serializar, self.__deserializar
-        )
+        self.__store = JsonStore(filename, self.__serializar, self.__deserializar)
 
     def __serializar(self, visita):
         return {
@@ -16,7 +14,11 @@ class VisitaDidacticaRepository:
             "observaciones": visita.observaciones,
             "nota": visita.nota,
             "docente_didactica_id": visita.docenteDidactica.id,
-            "docente_adscriptor_id": visita.docenteAdscriptor.id,
+            "docente_adscriptor_id": (
+                visita.docenteAdscriptor.id
+                if visita.docenteAdscriptor is not None
+                else None
+            ),
             "docente_extra_id": (
                 visita.docenteExtra.id if visita.docenteExtra else None
             ),
@@ -29,10 +31,16 @@ class VisitaDidacticaRepository:
             registro["observaciones"],
             registro["nota"],
             SimpleNamespace(id=registro["docente_didactica_id"]),
-            SimpleNamespace(id=registro["docente_adscriptor_id"]),
-            SimpleNamespace(id=registro["docente_extra_id"])
-            if registro.get("docente_extra_id") is not None
-            else None,
+            (
+                SimpleNamespace(id=registro["docente_adscriptor_id"])
+                if registro.get("docente_adscriptor_id") is not None
+                else None
+            ),
+            (
+                SimpleNamespace(id=registro["docente_extra_id"])
+                if registro.get("docente_extra_id") is not None
+                else None
+            ),
         )
 
     def agregar(self, entidad):

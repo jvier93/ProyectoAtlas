@@ -1,13 +1,19 @@
 [
   {
     "id": 1,
-    "nombre": "Didactica I",
+    "nombre": "Didactica 1",
     "requiere_docente_adscriptor": true,
     "requiere_grupo": true
   },
   {
     "id": 2,
-    "nombre": "Didactica II",
+    "nombre": "Didactica III",
+    "requiere_docente_adscriptor": false,
+    "requiere_grupo": true
+  },
+  {
+    "id": 3,
+    "nombre": "intro",
     "requiere_docente_adscriptor": false,
     "requiere_grupo": false
   }

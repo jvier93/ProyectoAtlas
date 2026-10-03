@@ -1,13 +1,8 @@
 [
   {
     "id": 18,
-    "nombre": "Institucion 018",
+    "nombre": "Institucion 0188",
     "direccion": "Calle 018 N 117"
-  },
-  {
-    "id": 19,
-    "nombre": "Institucion 019",
-    "direccion": "Calle 019 N 118"
   },
   {
     "id": 20,
@@ -316,7 +311,7 @@
   },
   {
     "id": 86,
-    "nombre": "Institucion 086",
+    "nombre": "Institucion 0898",
     "direccion": "Calle 086 N 185"
   },
   {
@@ -333,25 +328,5 @@
     "id": 89,
     "nombre": "Institucion 089",
     "direccion": "Calle 089 N 188"
-  },
-  {
-    "id": 92,
-    "nombre": "Institucion 092",
-    "direccion": "Calle 092 N 191"
-  },
-  {
-    "id": 94,
-    "nombre": "Institucion 094",
-    "direccion": "Calle 094 N 193"
-  },
-  {
-    "id": 95,
-    "nombre": "Institucion 095",
-    "direccion": "Calle 095 N 194"
-  },
-  {
-    "id": 96,
-    "nombre": "Liceo 2",
-    "direccion": "No se"
   }
 ]

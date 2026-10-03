@@ -1,11 +1,15 @@
 import flet as ft
-from domain.services.docente_service import DocenteService
+from domain.services.grupo_service import GrupoService
 from views.layout import ANCHO_TABLA, ESPACIADO_COLUMNAS
 
 
-def construir_vista_docentes(page: ft.Page, abrir_crear: callable) -> ft.Column:
-    """Construye la vista de docentes con sus acciones principales."""
-    servicio = DocenteService()
+def construir_vista_grupos(
+    page: ft.Page,
+    abrir_crear: callable,
+    abrir_editar: callable = None,
+) -> ft.Column:
+    """Construye la vista de grupos con sus acciones principales."""
+    servicio = GrupoService()
 
     def mostrar_notificacion(mensaje: str, color: str):
         page.show_dialog(
@@ -20,9 +24,10 @@ def construir_vista_docentes(page: ft.Page, abrir_crear: callable) -> ft.Column:
     tabla = ft.DataTable(
         columns=[
             ft.DataColumn(ft.Text("Nombre")),
-            ft.DataColumn(ft.Text("Tipo")),
-            ft.DataColumn(ft.Text("Practicantes activos")),
-            ft.DataColumn(ft.Text("Practicantes en cola")),
+            ft.DataColumn(ft.Text("Docente")),
+            ft.DataColumn(ft.Text("Institución")),
+            ft.DataColumn(ft.Text("Horario")),
+            ft.DataColumn(ft.Text("Acciones")),
         ],
         rows=[],
         column_spacing=ESPACIADO_COLUMNAS,
@@ -31,15 +36,16 @@ def construir_vista_docentes(page: ft.Page, abrir_crear: callable) -> ft.Column:
         width=ANCHO_TABLA,
     )
 
-    def cargar_docentes():
+    def cargar_grupos():
         tabla.rows.clear()
         try:
-            docentes = servicio.listar()
+            grupos = servicio.listar()
         except Exception:
             tabla.rows.append(
                 ft.DataRow(
                     cells=[
-                        ft.DataCell(ft.Text("No se pudieron cargar los docentes.")),
+                        ft.DataCell(ft.Text("No se pudieron cargar los grupos.")),
+                        ft.DataCell(ft.Text("")),
                         ft.DataCell(ft.Text("")),
                         ft.DataCell(ft.Text("")),
                         ft.DataCell(ft.Text("")),
@@ -47,16 +53,17 @@ def construir_vista_docentes(page: ft.Page, abrir_crear: callable) -> ft.Column:
                 )
             )
             mostrar_notificacion(
-                "Ocurrió un error al cargar los docentes.",
+                "Ocurrió un error al cargar los grupos.",
                 ft.Colors.ERROR,
             )
             return
 
-        if not docentes:
+        if not grupos:
             tabla.rows.append(
                 ft.DataRow(
                     cells=[
-                        ft.DataCell(ft.Text("No hay docentes cargados.")),
+                        ft.DataCell(ft.Text("No hay grupos cargados.")),
+                        ft.DataCell(ft.Text("")),
                         ft.DataCell(ft.Text("")),
                         ft.DataCell(ft.Text("")),
                         ft.DataCell(ft.Text("")),
@@ -65,26 +72,35 @@ def construir_vista_docentes(page: ft.Page, abrir_crear: callable) -> ft.Column:
             )
             return
 
-        for docente in docentes:
-            conteos_practicantes = (
-                [
-                    ft.DataCell(ft.Text(str(len(docente.activas)))),
-                    ft.DataCell(ft.Text(str(len(docente.listaEspera)))),
-                ]
-                if docente.tipo == "adscriptor"
-                else [ft.DataCell(ft.Text("-")), ft.DataCell(ft.Text("-"))]
+        for grupo in grupos:
+            docente_nombre = (
+                grupo.docente.nombre if getattr(grupo, "docente", None) else "-"
+            )
+            institucion_nombre = (
+                grupo.institucion.nombre if getattr(grupo, "institucion", None) else "-"
+            )
+            acciones = (
+                ft.IconButton(
+                    icon=ft.Icons.EDIT_OUTLINED,
+                    tooltip="Editar horario del grupo",
+                    on_click=lambda e, id_grupo=grupo.id: abrir_editar(id_grupo),
+                )
+                if abrir_editar
+                else ft.Text("")
             )
             tabla.rows.append(
                 ft.DataRow(
                     cells=[
-                        ft.DataCell(ft.Text(docente.nombre)),
-                        ft.DataCell(ft.Text(docente.tipo)),
-                        *conteos_practicantes,
+                        ft.DataCell(ft.Text(grupo.nombre)),
+                        ft.DataCell(ft.Text(docente_nombre)),
+                        ft.DataCell(ft.Text(institucion_nombre)),
+                        ft.DataCell(ft.Text(grupo.horario)),
+                        ft.DataCell(acciones),
                     ]
                 )
             )
 
-    cargar_docentes()
+    cargar_grupos()
 
     return ft.Column(
         [
@@ -92,9 +108,9 @@ def construir_vista_docentes(page: ft.Page, abrir_crear: callable) -> ft.Column:
                 [
                     ft.Column(
                         [
-                            ft.Text("Docentes", size=28, weight=ft.FontWeight.BOLD),
+                            ft.Text("Grupos", size=28, weight=ft.FontWeight.BOLD),
                             ft.Text(
-                                "Gestiona los docentes disponibles",
+                                "Gestiona los grupos disponibles",
                                 color=ft.Colors.SECONDARY,
                             ),
                         ],
@@ -102,7 +118,7 @@ def construir_vista_docentes(page: ft.Page, abrir_crear: callable) -> ft.Column:
                         expand=True,
                     ),
                     ft.FilledButton(
-                        "Crear docente",
+                        "Crear grupo",
                         icon=ft.Icons.ADD,
                         on_click=abrir_crear,
                     ),

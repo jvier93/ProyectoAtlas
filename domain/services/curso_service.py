@@ -9,6 +9,10 @@ class CursoService:
     def crear(self, nombre, requiere_docente_adscriptor=False, requiere_grupo=False):
         if nombre is None or nombre == "" or not nombre.strip():
             raise ValueError("El nombre del curso es obligatorio")
+        if requiere_docente_adscriptor and not requiere_grupo:
+            raise ValueError(
+                "Un curso que requiere docente adscriptor también debe requerir un grupo"
+            )
 
         id_nuevo = self.__repository.obtener_proximo_id()
         curso = Curso(id_nuevo, nombre, requiere_docente_adscriptor, requiere_grupo)

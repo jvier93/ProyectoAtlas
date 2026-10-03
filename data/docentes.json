@@ -1,14 +1,7 @@
 [
   {
     "id": 1,
-    "nombre": "Pitico",
-    "tipo": "didactica",
-    "lista_espera_ids": [],
-    "activas_ids": []
-  },
-  {
-    "id": 2,
-    "nombre": "Nacho",
+    "nombre": "Perez",
     "tipo": "adscriptor",
     "lista_espera_ids": [],
     "activas_ids": [
@@ -16,9 +9,9 @@
     ]
   },
   {
-    "id": 3,
-    "nombre": "Nacho2",
-    "tipo": "general",
+    "id": 2,
+    "nombre": "Gil",
+    "tipo": "didactica",
     "lista_espera_ids": [],
     "activas_ids": []
   }

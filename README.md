@@ -13,4 +13,4 @@ referencias entre entidades se guardan mediante IDs y se reconstruyen al leer.
 
 - Insitucion se listan con institucion_service
 - Grupos se obtienen con grupo_service, se tiene diponible una funcion obtener_por_institucion(institucion id) para poder obtener los grupos de una institucion
-- Docente de grupo, al obtener los grupos de una institucion ya vienen hidratados, es decir, con el docente a cargo.
+- El docente de un grupo es opcional. Al obtener los grupos de una institución, las relaciones existentes vienen hidratadas.

@@ -56,9 +56,10 @@ class VisitaDidacticaService:
         visita.docenteDidactica = self.__docente_service.obtener_por_id(
             visita.docenteDidactica.id
         )
-        visita.docenteAdscriptor = self.__docente_service.obtener_por_id(
-            visita.docenteAdscriptor.id
-        )
+        if visita.docenteAdscriptor is not None:
+            visita.docenteAdscriptor = self.__docente_service.obtener_por_id(
+                visita.docenteAdscriptor.id
+            )
 
         if visita.docenteExtra is not None:
             visita.docenteExtra = self.__docente_service.obtener_por_id(
