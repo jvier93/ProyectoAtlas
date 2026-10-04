@@ -1,12 +1,152 @@
 [
   {
     "id": 1,
-    "nombre": "Pablos",
-    "puntuacionEnLista": "100"
+    "nombre": "Martina Acosta",
+    "puntuacionEnLista": "94"
   },
   {
     "id": 2,
-    "nombre": "Mariano",
-    "puntuacionEnLista": "100"
+    "nombre": "Thiago Rodríguez",
+    "puntuacionEnLista": "87"
+  },
+  {
+    "id": 3,
+    "nombre": "Valentina Silva",
+    "puntuacionEnLista": "91"
+  },
+  {
+    "id": 4,
+    "nombre": "Felipe Pereira",
+    "puntuacionEnLista": "78"
+  },
+  {
+    "id": 5,
+    "nombre": "Camila Sosa",
+    "puntuacionEnLista": "96"
+  },
+  {
+    "id": 6,
+    "nombre": "Bautista González",
+    "puntuacionEnLista": "82"
+  },
+  {
+    "id": 7,
+    "nombre": "Emilia Fernández",
+    "puntuacionEnLista": "89"
+  },
+  {
+    "id": 8,
+    "nombre": "Joaquín Bentancur",
+    "puntuacionEnLista": "93"
+  },
+  {
+    "id": 9,
+    "nombre": "Isabella Cabrera",
+    "puntuacionEnLista": "85"
+  },
+  {
+    "id": 10,
+    "nombre": "Santino Ferreira",
+    "puntuacionEnLista": "76"
+  },
+  {
+    "id": 11,
+    "nombre": "Mía Olivera",
+    "puntuacionEnLista": "98"
+  },
+  {
+    "id": 12,
+    "nombre": "Benjamín Viera",
+    "puntuacionEnLista": "88"
+  },
+  {
+    "id": 13,
+    "nombre": "Sofía Méndez",
+    "puntuacionEnLista": "90"
+  },
+  {
+    "id": 14,
+    "nombre": "Mateo Correa",
+    "puntuacionEnLista": "81"
+  },
+  {
+    "id": 15,
+    "nombre": "Agustina Suárez",
+    "puntuacionEnLista": "95"
+  },
+  {
+    "id": 16,
+    "nombre": "Franco Núñez",
+    "puntuacionEnLista": "84"
+  },
+  {
+    "id": 17,
+    "nombre": "Catalina Castro",
+    "puntuacionEnLista": "92"
+  },
+  {
+    "id": 18,
+    "nombre": "Lorenzo Machado",
+    "puntuacionEnLista": "79"
+  },
+  {
+    "id": 19,
+    "nombre": "Julieta Techera",
+    "puntuacionEnLista": "97"
+  },
+  {
+    "id": 20,
+    "nombre": "Facundo Costa",
+    "puntuacionEnLista": "86"
+  },
+  {
+    "id": 21,
+    "nombre": "Renata Pintos",
+    "puntuacionEnLista": "90"
+  },
+  {
+    "id": 22,
+    "nombre": "Manuel Da Silva",
+    "puntuacionEnLista": "83"
+  },
+  {
+    "id": 23,
+    "nombre": "Olivia Barrios",
+    "puntuacionEnLista": "88"
+  },
+  {
+    "id": 24,
+    "nombre": "Nicolás Fagúndez",
+    "puntuacionEnLista": "93"
+  },
+  {
+    "id": 25,
+    "nombre": "Clara Morales",
+    "puntuacionEnLista": "80"
+  },
+  {
+    "id": 26,
+    "nombre": "Salvador Silva",
+    "puntuacionEnLista": "87"
+  },
+  {
+    "id": 27,
+    "nombre": "Josefina Acosta",
+    "puntuacionEnLista": "96"
+  },
+  {
+    "id": 28,
+    "nombre": "Bruno Almeida",
+    "puntuacionEnLista": "75"
+  },
+  {
+    "id": 29,
+    "nombre": "Delfina Cabrera",
+    "puntuacionEnLista": "91"
+  },
+  {
+    "id": 30,
+    "nombre": "Tomás Rodríguez",
+    "puntuacionEnLista": "89"
   }
 ]
