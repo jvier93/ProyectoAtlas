@@ -3,7 +3,11 @@ from domain.services.institucion_service import InstitucionService
 from views.layout import ANCHO_TABLA, ESPACIADO_COLUMNAS
 
 
-def construir_vista_instituciones(page: ft.Page, abrir_crear: callable) -> ft.Column:
+def construir_vista_instituciones(
+    page: ft.Page,
+    abrir_crear: callable,
+    abrir_editar: callable,
+) -> ft.Column:
     """Construye la vista de instituciones con sus acciones principales."""
     servicio = InstitucionService()
 
@@ -80,11 +84,21 @@ def construir_vista_instituciones(page: ft.Page, abrir_crear: callable) -> ft.Co
         bgcolor=ft.Colors.SURFACE,
         width=ANCHO_TABLA,
     )
+    busqueda = ft.TextField(
+        label="Buscar por nombre",
+        hint_text="Nombre de la institución",
+        expand=True,
+    )
 
     def cargar_instituciones():
         tabla.rows.clear()
         try:
-            instituciones = servicio.listar()
+            criterio = (busqueda.value or "").strip()
+            if criterio:
+                institucion = servicio.buscar_por_nombre(criterio)
+                instituciones = [institucion] if institucion is not None else []
+            else:
+                instituciones = servicio.listar()
         except Exception:
             tabla.rows.append(
                 ft.DataRow(
@@ -104,10 +118,15 @@ def construir_vista_instituciones(page: ft.Page, abrir_crear: callable) -> ft.Co
             return
 
         if not instituciones:
+            mensaje = (
+                "No se encontraron instituciones con ese nombre."
+                if busqueda.value and busqueda.value.strip()
+                else "No hay instituciones cargadas."
+            )
             tabla.rows.append(
                 ft.DataRow(
                     cells=[
-                        ft.DataCell(ft.Text("No hay instituciones cargadas.")),
+                        ft.DataCell(ft.Text(mensaje)),
                         ft.DataCell(ft.Text("")),
                         ft.DataCell(ft.Text("")),
                     ]
@@ -118,6 +137,11 @@ def construir_vista_instituciones(page: ft.Page, abrir_crear: callable) -> ft.Co
         for institucion in instituciones:
             acciones = ft.Row(
                 [
+                    ft.IconButton(
+                        icon=ft.Icons.EDIT_OUTLINED,
+                        tooltip="Editar institución",
+                        on_click=lambda e, id=institucion.id: abrir_editar(id),
+                    ),
                     ft.IconButton(
                         icon=ft.Icons.DELETE_OUTLINE,
                         tooltip="Eliminar institución",
@@ -139,6 +163,9 @@ def construir_vista_instituciones(page: ft.Page, abrir_crear: callable) -> ft.Co
                     ]
                 )
             )
+
+    def buscar_instituciones(e):
+        cargar_instituciones()
 
     cargar_instituciones()
 
@@ -166,6 +193,17 @@ def construir_vista_instituciones(page: ft.Page, abrir_crear: callable) -> ft.Co
                     ),
                 ],
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            ),
+            ft.Row(
+                [
+                    busqueda,
+                    ft.TextButton(
+                        "Buscar",
+                        icon=ft.Icons.SEARCH,
+                        on_click=buscar_instituciones,
+                    ),
+                ],
+                spacing=8,
             ),
             ft.Divider(),
             ft.Container(

@@ -1,3 +1,5 @@
+import math
+
 from domain.models.practica import Practica
 from domain.models.curso import Curso
 from domain.services.asistencia_service import AsistenciaService
@@ -19,7 +21,6 @@ class PracticaService:
         self.__asistencia_service = AsistenciaService()
         self.__visita_didactica_service = VisitaDidacticaService()
 
-   
     def crear(
         self,
         cursada_id,
@@ -29,32 +30,59 @@ class PracticaService:
         docente_didactica_id=None,
         observaciones=None,
     ):
-        
-        #Resolvemos dependencias
+        if cursada_id is None or str(cursada_id).strip() == "":
+            raise ValueError("La cursada es obligatoria")
+        if institucion_id is None or str(institucion_id).strip() == "":
+            raise ValueError("Debe seleccionar una institución")
+
+        try:
+            cursada_id = int(cursada_id)
+            institucion_id = int(institucion_id)
+        except (TypeError, ValueError):
+            raise ValueError("Los IDs de la práctica no son válidos")
+
+        # Resolvemos dependencias
         id_nuevo = self.__practica_repository.obtener_proximo_id()
         cursada = self.__cursada_service.obtener_por_id(cursada_id)
         institucion = self.__institucion_service.obtener_por_id(institucion_id)
-        
+
         if cursada is None or institucion is None:
             raise ValueError("La cursada o institución no existe")
-        
 
         grupo = None
-        if grupo_id is not None:
+        if grupo_id is not None and str(grupo_id).strip() != "":
+            try:
+                grupo_id = int(grupo_id)
+            except (TypeError, ValueError):
+                raise ValueError("El ID del grupo no es válido")
             grupo = self.__grupo_service.obtener_por_id(grupo_id)
             if grupo is None:
                 raise ValueError("El grupo no existe")
-           
 
         docente_adscriptor = None
-        if docente_adscriptor_id is not None:
-            docente_adscriptor = self.__docente_service.obtener_por_id(docente_adscriptor_id)
+        if (
+            docente_adscriptor_id is not None
+            and str(docente_adscriptor_id).strip() != ""
+        ):
+            try:
+                docente_adscriptor_id = int(docente_adscriptor_id)
+            except (TypeError, ValueError):
+                raise ValueError("El ID del docente adscriptor no es válido")
+            docente_adscriptor = self.__docente_service.obtener_por_id(
+                docente_adscriptor_id
+            )
             if docente_adscriptor is None:
                 raise ValueError("El docente adscriptor no existe")
 
         docente_didactica = None
         if docente_didactica_id is not None:
-            docente_didactica = self.__docente_service.obtener_por_id(docente_didactica_id)
+            try:
+                docente_didactica_id = int(docente_didactica_id)
+            except (TypeError, ValueError):
+                raise ValueError("El ID del docente de didáctica no es válido")
+            docente_didactica = self.__docente_service.obtener_por_id(
+                docente_didactica_id
+            )
             if docente_didactica is None:
                 raise ValueError("El docente de didáctica no existe")
 
@@ -80,8 +108,6 @@ class PracticaService:
             ):
                 return True
         return False
-       
-  
 
     def __practica_ya_existe_para_cursada(self, cursada_id):
         practicas = self.__practica_repository.listar()
@@ -91,23 +117,29 @@ class PracticaService:
         return False
 
     def registrar_practica(self, practica):
+        curso = practica.cursada.curso
+
+        if not curso.requiere_grupo:
+            practica.grupo = None
+        elif practica.grupo is None:
+            raise ValueError("El curso requiere un grupo")
+
+        if not curso.requiere_docente_adscriptor:
+            practica.docenteAdscriptor = None
+        elif practica.docenteAdscriptor is None:
+            raise ValueError("El curso requiere un docente adscriptor")
+
         docente = practica.docenteAdscriptor
         if docente is not None:
             docente = self.__docente_service.obtener_por_id(docente.id)
 
         if self.__existe_practica_activa(practica.cursada.estudiante.id):
             raise ValueError("El estudiante ya tiene una práctica activa")
-        
+
         if self.__practica_ya_existe_para_cursada(practica.cursada.id):
             raise ValueError("Ya existe una práctica para esta cursada")
 
-        if practica.cursada.curso.requiere_docente_adscriptor and docente is None:
-            raise ValueError("El curso requiere un docente adscriptor")
-
-        if practica.cursada.curso.requiere_grupo and practica.grupo is None:
-            raise ValueError("El curso requiere un grupo")
-
-        if not practica.cursada.curso.requiere_docente_adscriptor:
+        if not curso.requiere_docente_adscriptor:
             practica.estado = Practica.ESTADO_EN_CURSO
 
         elif self.__docente_service.asignar_practica(docente.id, practica.id):
@@ -117,16 +149,12 @@ class PracticaService:
 
         return self.__practica_repository.agregar(practica)
 
-    def registrar_asistencia(
-        self, practica_id, fecha, estado, observaciones=None
-    ):
+    def registrar_asistencia(self, practica_id, fecha, estado, observaciones=None):
         practica = self.obtener_por_id(practica_id)
         if practica is None:
             raise ValueError("La practica no existe")
 
-        asistencia = self.__asistencia_service.crear(
-            fecha, estado, observaciones
-        )
+        asistencia = self.__asistencia_service.crear(fecha, estado, observaciones)
         practica.agregar_asistencia(asistencia)
         self.actualizar(practica)
         return asistencia
@@ -144,6 +172,10 @@ class PracticaService:
         practica = self.obtener_por_id(practica_id)
         if practica is None:
             raise ValueError("La practica no existe")
+        if not practica.cursada.curso.requiere_grupo:
+            raise ValueError(
+                "El curso debe requerir un grupo para registrar una visita didactica"
+            )
 
         visita = self.__visita_didactica_service.crear(
             fecha,
@@ -157,13 +189,23 @@ class PracticaService:
         self.actualizar(practica)
         return visita
 
-    def finalizar_practica(self, id):
+    def finalizar_practica(self, id, nota_final, observaciones=None):
         practica = self.__practica_repository.obtener_por_id(id)
         if practica is None:
             raise ValueError("La practica no existe")
         if practica.estado != Practica.ESTADO_EN_CURSO:
             raise ValueError("Solo se puede finalizar una practica en curso")
 
+        if nota_final is None or str(nota_final).strip() == "":
+            raise ValueError("La nota final es obligatoria")
+        try:
+            nota_final = float(nota_final)
+        except (TypeError, ValueError, OverflowError):
+            raise ValueError("La nota final debe ser un valor numérico")
+
+        practica.notaFinal = nota_final
+        if observaciones is not None:
+            practica.observaciones = observaciones
         practica.estado = Practica.ESTADO_FINALIZADA
         if practica.docenteAdscriptor is not None:
             practica_promovida_id = self.__docente_service.liberar_practica(
@@ -184,6 +226,11 @@ class PracticaService:
         practica.docenteDidactica = self.__docente_service.obtener_por_id(
             practica.docenteDidactica.id
         )
+
+        if practica.docenteAdscriptor is not None:
+            practica.docenteAdscriptor = self.__docente_service.obtener_por_id(
+                practica.docenteAdscriptor.id
+            )
 
         if practica.grupo is not None:
             practica.grupo = self.__grupo_service.obtener_por_id(practica.grupo.id)
@@ -214,15 +261,7 @@ class PracticaService:
         return self._hidratar_relaciones(practica)
 
     def obtener_por_cursada_id(self, cursada_id):
-        """
-        Retorna la práctica asociada a una cursada específica (si existe).
-        
-        Args:
-            cursada_id: ID de la cursada.
-            
-        Returns:
-            Objeto Practica hidratado o None si no existe práctica para esa cursada.
-        """
+
         practicas = self.__practica_repository.listar()
         for practica in practicas:
             if practica.cursada.id == cursada_id:
@@ -240,23 +279,27 @@ class PracticaService:
         practica = self.__practica_repository.obtener_por_id(id)
         if practica is None:
             raise ValueError("La practica no existe")
-        
-        
+
+        for asistencia in practica.asistencias:
+            self.__asistencia_service.eliminar(asistencia.id)
+        for visita in practica.visitasDidacticas:
+            self.__visita_didactica_service.eliminar(visita.id)
+
         if practica.docenteAdscriptor is not None:
             if practica.estado == Practica.ESTADO_EN_CURSO:
                 practica_promovida_id = self.__docente_service.liberar_practica(
                     practica.docenteAdscriptor.id, practica.id
                 )
                 self.__promocionar_practica_en_espera(practica_promovida_id)
-            elif practica.estado == Practica.ESTADO_EN_ESPERA:   
+            elif practica.estado == Practica.ESTADO_EN_ESPERA:
                 self.__docente_service.quitar_de_lista_espera(
                     practica.docenteAdscriptor.id, practica.id
                 )
-        
+
         return self.__practica_repository.eliminar(id)
 
     def __promocionar_practica_en_espera(self, practica_promovida_id):
-        #Promueve una práctica de la cola a activas, le cambia el estado a EN_CURSO y la actualiza.
+        # Promueve una práctica de la cola a activas, le cambia el estado a EN_CURSO y la actualiza.
         if practica_promovida_id is not None:
             practica_promovida = self.__practica_repository.obtener_por_id(
                 practica_promovida_id

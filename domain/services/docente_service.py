@@ -30,6 +30,19 @@ class DocenteService:
     def eliminar(self, id):
         return self.__repository.eliminar(id)
 
+    def obtener_estado_cola(self, docente_id):
+        docente = self.obtener_por_id(docente_id)
+        if docente is None or docente.tipo != "adscriptor":
+            return None
+
+        if len(docente.activas) < docente.cuposMaximo:
+            return {"en_cola": False, "posicion": None}
+
+        return {
+            "en_cola": True,
+            "posicion": len(docente.listaEspera) + 1,
+        }
+
     def asignar_practica(self, docente_id, practica_id):
         # Asigna una practica y la agrega a activos, si no hay cupo la pone en espera.
         docente = self.obtener_por_id(docente_id)

@@ -16,17 +16,21 @@ class CursadaService:
         if cursada is None:
             return None
 
-        cursada.estudiante = self.__estudiante_service.obtener_por_id(cursada.estudiante.id)
+        cursada.estudiante = self.__estudiante_service.obtener_por_id(
+            cursada.estudiante.id
+        )
         cursada.curso = self.__curso_service.obtener_por_id(cursada.curso.id)
-        cursada.docenteDidactica = self.__docente_service.obtener_por_id(cursada.docenteDidactica.id)
-        
+        cursada.docenteDidactica = self.__docente_service.obtener_por_id(
+            cursada.docenteDidactica.id
+        )
+
         return cursada
 
     def __cursada_ya_existe(self, estudiante_id, curso_id, anio):
-       
-        cursadas = self.__repository.listar() 
+
+        cursadas = self.__repository.listar()
         for cursada in cursadas:
-            mismo_estudiante = cursada.estudiante.id == estudiante_id 
+            mismo_estudiante = cursada.estudiante.id == estudiante_id
             mismo_curso = cursada.curso.id == curso_id
             mismo_anio = cursada.anio == anio
             if mismo_estudiante and mismo_curso and mismo_anio:
@@ -34,37 +38,55 @@ class CursadaService:
         return False
 
     def crear(self, estudiante_id, curso_id, anio, docente_didactica_id):
-    
+        if estudiante_id is None or str(estudiante_id).strip() == "":
+            raise ValueError("El estudiante es obligatorio")
+        if curso_id is None or str(curso_id).strip() == "":
+            raise ValueError("El curso es obligatorio")
+        if anio is None or str(anio).strip() == "":
+            raise ValueError("El año de la cursada es obligatorio")
+        if docente_didactica_id is None or str(docente_didactica_id).strip() == "":
+            raise ValueError("El docente de didáctica es obligatorio")
+
+        try:
+            estudiante_id = int(estudiante_id)
+            curso_id = int(curso_id)
+            anio = int(anio)
+            docente_didactica_id = int(docente_didactica_id)
+        except (TypeError, ValueError):
+            raise ValueError("Los datos de la cursada no son válidos")
+
         # Resolvemos dependencias
         id_nuevo = self.__repository.obtener_proximo_id()
         estudiante = self.__estudiante_service.obtener_por_id(estudiante_id)
         curso = self.__curso_service.obtener_por_id(curso_id)
         docente_didactica = self.__docente_service.obtener_por_id(docente_didactica_id)
-        
+
         if estudiante is None:
             raise ValueError("El estudiante no existe")
         if curso is None:
             raise ValueError("El curso no existe")
         if docente_didactica is None:
             raise ValueError("El docente de didáctica no existe")
-        
+        if docente_didactica.tipo != "didactica":
+            raise ValueError("El docente seleccionado no es de didáctica")
+
         # Validamos que que ya no exista una cursada para este estudiante, curso y año
         if self.__cursada_ya_existe(estudiante_id, curso_id, anio):
             raise ValueError(
                 f"Ya existe una cursada para este estudiante, curso y año ({anio})"
             )
-        
+
         cursada = Cursada(id_nuevo, estudiante, curso, anio, docente_didactica)
-      
-        return  self.__repository.agregar(cursada)
+
+        return self.__repository.agregar(cursada)
 
     def obtener_por_id(self, id):
         cursada = self.__repository.obtener_por_id(id)
         return self._hidratar_relaciones(cursada)
 
     def listar_cursadas_de_estudiante(self, estudiante_id):
-    
-        cursadas = self.listar()  
+
+        cursadas = self.listar()
         cursadas_estudiante = []
         for cursada in cursadas:
             if cursada.estudiante.id == estudiante_id:

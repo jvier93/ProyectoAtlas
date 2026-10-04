@@ -5,15 +5,13 @@ from types import SimpleNamespace
 
 class GrupoRepository:
     def __init__(self, filename="data/grupos.json"):
-        self.__store = JsonStore(
-            filename, self.__serializar, self.__deserializar
-        )
+        self.__store = JsonStore(filename, self.__serializar, self.__deserializar)
 
     def __serializar(self, grupo):
         return {
             "id": grupo.id,
             "nombre": grupo.nombre,
-            "docente_id": grupo.docente.id,
+            "docente_id": grupo.docente.id if grupo.docente else None,
             "institucion_id": grupo.institucion.id,
             "horario": grupo.horario,
         }
@@ -22,7 +20,11 @@ class GrupoRepository:
         return Grupo(
             registro["id"],
             registro["nombre"],
-            SimpleNamespace(id=registro["docente_id"]),
+            (
+                SimpleNamespace(id=registro["docente_id"])
+                if registro.get("docente_id")
+                else None
+            ),
             SimpleNamespace(id=registro["institucion_id"]),
             registro["horario"],
         )
@@ -38,13 +40,13 @@ class GrupoRepository:
 
     def obtener_proximo_id(self):
         return self.__store.obtener_proximo_id()
-    
+
     def listar(self):
         return self.__store.listar()
-    
+
     def buscar(self, criterio):
         return self.__store.buscar(criterio)
-    
+
     def actualizar(self, entidad):
         return self.__store.actualizar(entidad)
 

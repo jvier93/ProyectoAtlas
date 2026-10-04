@@ -1,9 +1,282 @@
 [
   {
     "id": 1,
-    "nombre": "Grupo A",
+    "nombre": "EMS 1A",
     "docente_id": 1,
     "institucion_id": 1,
-    "horario": "Lunes 10:00-12:00"
+    "horario": "Lu 08:00 - 09:30"
+  },
+  {
+    "id": 2,
+    "nombre": "EMS 2A",
+    "docente_id": 2,
+    "institucion_id": 1,
+    "horario": "Ma 08:00 - 09:30"
+  },
+  {
+    "id": 3,
+    "nombre": "EMS 3A",
+    "docente_id": 3,
+    "institucion_id": 1,
+    "horario": "Mi 18:00 - 19:30"
+  },
+  {
+    "id": 4,
+    "nombre": "EMS 1B",
+    "docente_id": 4,
+    "institucion_id": 1,
+    "horario": "Ju 19:40 - 21:10"
+  },
+  {
+    "id": 5,
+    "nombre": "Ciclo Básico 1A",
+    "docente_id": 5,
+    "institucion_id": 2,
+    "horario": "Lu 09:40 - 11:10"
+  },
+  {
+    "id": 6,
+    "nombre": "Ciclo Básico 2A",
+    "docente_id": 6,
+    "institucion_id": 2,
+    "horario": "Ma 13:00 - 14:30"
+  },
+  {
+    "id": 7,
+    "nombre": "Ciclo Básico 3A",
+    "docente_id": 7,
+    "institucion_id": 2,
+    "horario": "Mi 11:20 - 12:50"
+  },
+  {
+    "id": 8,
+    "nombre": "EMS 1A",
+    "docente_id": 8,
+    "institucion_id": 2,
+    "horario": "Ju 14:40 - 16:10"
+  },
+  {
+    "id": 9,
+    "nombre": "Ciclo Básico 1A",
+    "docente_id": 9,
+    "institucion_id": 3,
+    "horario": "Vi 08:00 - 09:30"
+  },
+  {
+    "id": 10,
+    "nombre": "Ciclo Básico 2A",
+    "docente_id": 10,
+    "institucion_id": 3,
+    "horario": "Lu 13:00 - 14:30"
+  },
+  {
+    "id": 11,
+    "nombre": "Ciclo Básico 3A",
+    "docente_id": null,
+    "institucion_id": 3,
+    "horario": "Ma 09:40 - 11:10"
+  },
+  {
+    "id": 12,
+    "nombre": "Ciclo Básico 1B",
+    "docente_id": null,
+    "institucion_id": 3,
+    "horario": "Mi 13:00 - 14:30"
+  },
+  {
+    "id": 13,
+    "nombre": "Ciclo Básico 1A",
+    "docente_id": null,
+    "institucion_id": 4,
+    "horario": "Ju 08:00 - 09:30"
+  },
+  {
+    "id": 14,
+    "nombre": "Ciclo Básico 2A",
+    "docente_id": null,
+    "institucion_id": 4,
+    "horario": "Vi 13:00 - 14:30"
+  },
+  {
+    "id": 15,
+    "nombre": "Ciclo Básico 3A",
+    "docente_id": null,
+    "institucion_id": 4,
+    "horario": "Lu 11:20 - 12:50"
+  },
+  {
+    "id": 16,
+    "nombre": "Bachillerato 1A",
+    "docente_id": null,
+    "institucion_id": 4,
+    "horario": "Ma 15:00 - 16:30"
+  },
+  {
+    "id": 17,
+    "nombre": "EMS 1A",
+    "docente_id": null,
+    "institucion_id": 5,
+    "horario": "Mi 08:00 - 09:30"
+  },
+  {
+    "id": 18,
+    "nombre": "EMS 2A",
+    "docente_id": null,
+    "institucion_id": 5,
+    "horario": "Ju 09:40 - 11:10"
+  },
+  {
+    "id": 19,
+    "nombre": "EMS 3A",
+    "docente_id": null,
+    "institucion_id": 5,
+    "horario": "Vi 18:00 - 19:30"
+  },
+  {
+    "id": 20,
+    "nombre": "EMS 1B",
+    "docente_id": null,
+    "institucion_id": 5,
+    "horario": "Lu 14:40 - 16:10"
+  },
+  {
+    "id": 21,
+    "nombre": "Ciclo Básico 1A",
+    "docente_id": null,
+    "institucion_id": 6,
+    "horario": "Ma 08:00 - 09:30"
+  },
+  {
+    "id": 22,
+    "nombre": "Ciclo Básico 2A",
+    "docente_id": null,
+    "institucion_id": 6,
+    "horario": "Mi 09:40 - 11:10"
+  },
+  {
+    "id": 23,
+    "nombre": "Ciclo Básico 3A",
+    "docente_id": null,
+    "institucion_id": 6,
+    "horario": "Ju 13:00 - 14:30"
+  },
+  {
+    "id": 24,
+    "nombre": "Ciclo Básico 1B",
+    "docente_id": null,
+    "institucion_id": 6,
+    "horario": "Vi 14:40 - 16:10"
+  },
+  {
+    "id": 25,
+    "nombre": "Ciclo Básico 1A",
+    "docente_id": null,
+    "institucion_id": 7,
+    "horario": "Lu 08:00 - 09:30"
+  },
+  {
+    "id": 26,
+    "nombre": "Ciclo Básico 2A",
+    "docente_id": null,
+    "institucion_id": 7,
+    "horario": "Ma 09:40 - 11:10"
+  },
+  {
+    "id": 27,
+    "nombre": "Ciclo Básico 3A",
+    "docente_id": null,
+    "institucion_id": 7,
+    "horario": "Mi 11:20 - 12:50"
+  },
+  {
+    "id": 28,
+    "nombre": "Ciclo Básico 1B",
+    "docente_id": null,
+    "institucion_id": 7,
+    "horario": "Ju 14:40 - 16:10"
+  },
+  {
+    "id": 29,
+    "nombre": "Ciclo Básico 1A",
+    "docente_id": null,
+    "institucion_id": 8,
+    "horario": "Vi 08:00 - 09:30"
+  },
+  {
+    "id": 30,
+    "nombre": "Ciclo Básico 2A",
+    "docente_id": null,
+    "institucion_id": 8,
+    "horario": "Lu 09:40 - 11:10"
+  },
+  {
+    "id": 31,
+    "nombre": "Ciclo Básico 3A",
+    "docente_id": null,
+    "institucion_id": 8,
+    "horario": "Ma 11:20 - 12:50"
+  },
+  {
+    "id": 32,
+    "nombre": "Bachillerato 1A",
+    "docente_id": null,
+    "institucion_id": 8,
+    "horario": "Mi 14:40 - 16:10"
+  },
+  {
+    "id": 33,
+    "nombre": "Ciclo Básico 1A",
+    "docente_id": null,
+    "institucion_id": 9,
+    "horario": "Ju 08:00 - 09:30"
+  },
+  {
+    "id": 34,
+    "nombre": "Ciclo Básico 2A",
+    "docente_id": null,
+    "institucion_id": 9,
+    "horario": "Vi 09:40 - 11:10"
+  },
+  {
+    "id": 35,
+    "nombre": "Ciclo Básico 3A",
+    "docente_id": null,
+    "institucion_id": 9,
+    "horario": "Lu 11:20 - 12:50"
+  },
+  {
+    "id": 36,
+    "nombre": "Bachillerato 1A",
+    "docente_id": null,
+    "institucion_id": 9,
+    "horario": "Ma 14:40 - 16:10"
+  },
+  {
+    "id": 37,
+    "nombre": "Ciclo Básico 1A",
+    "docente_id": null,
+    "institucion_id": 10,
+    "horario": "Mi 08:00 - 09:30"
+  },
+  {
+    "id": 38,
+    "nombre": "Ciclo Básico 2A",
+    "docente_id": null,
+    "institucion_id": 10,
+    "horario": "Ju 09:40 - 11:10"
+  },
+  {
+    "id": 39,
+    "nombre": "Ciclo Básico 3A",
+    "docente_id": null,
+    "institucion_id": 10,
+    "horario": "Vi 11:20 - 12:50"
+  },
+  {
+    "id": 40,
+    "nombre": "Bachillerato 1A",
+    "docente_id": null,
+    "institucion_id": 10,
+    "horario": "Lu 14:40 - 16:10"
   }
 ]
