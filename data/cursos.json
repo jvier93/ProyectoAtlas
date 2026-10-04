@@ -1,20 +1,74 @@
 [
   {
-    "id": 1,
-    "nombre": "Didactica 1",
+    "id": 5,
+    "nombre": "Intro. Campo Prof. - Informática",
+    "requiere_docente_adscriptor": false,
+    "requiere_grupo": false
+  },
+  {
+    "id": 6,
+    "nombre": "Didáctica I - Informática",
     "requiere_docente_adscriptor": true,
     "requiere_grupo": true
   },
   {
-    "id": 2,
-    "nombre": "Didactica III",
+    "id": 7,
+    "nombre": "Didáctica II - Informática",
+    "requiere_docente_adscriptor": true,
+    "requiere_grupo": true
+  },
+  {
+    "id": 8,
+    "nombre": "Didáctica III - Informática",
     "requiere_docente_adscriptor": false,
     "requiere_grupo": true
   },
   {
-    "id": 3,
-    "nombre": "intro",
+    "id": 9,
+    "nombre": "Intro. Campo Prof. - MEP",
     "requiere_docente_adscriptor": false,
     "requiere_grupo": false
+  },
+  {
+    "id": 10,
+    "nombre": "Didáctica I - MEP",
+    "requiere_docente_adscriptor": true,
+    "requiere_grupo": true
+  },
+  {
+    "id": 11,
+    "nombre": "Didáctica II - MEP",
+    "requiere_docente_adscriptor": true,
+    "requiere_grupo": true
+  },
+  {
+    "id": 12,
+    "nombre": "Didáctica III - MEP",
+    "requiere_docente_adscriptor": false,
+    "requiere_grupo": true
+  },
+  {
+    "id": 13,
+    "nombre": "Intro. Campo Prof. - Matemáticas",
+    "requiere_docente_adscriptor": false,
+    "requiere_grupo": false
+  },
+  {
+    "id": 14,
+    "nombre": "Didáctica I - Matemáticas",
+    "requiere_docente_adscriptor": true,
+    "requiere_grupo": true
+  },
+  {
+    "id": 15,
+    "nombre": "Didáctica II - Matemáticas",
+    "requiere_docente_adscriptor": true,
+    "requiere_grupo": true
+  },
+  {
+    "id": 16,
+    "nombre": "Didáctica III - Matemáticas",
+    "requiere_docente_adscriptor": false,
+    "requiere_grupo": true
   }
 ]
