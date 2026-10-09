@@ -1,0 +1,265 @@
+classDiagram
+direction LR
+
+namespace Modelos {
+    class Estudiante {
+        -int id
+        -nombre
+        -puntuacionEnLista
+    }
+    class Curso {
+        -int id
+        -nombre
+        -requiere_docente_adscriptor
+        -requiere_grupo
+    }
+    class Docente {
+        -int id
+        -nombre
+        -tipo
+        -activas
+        -listaEspera
+        -cuposMaximo
+        +agregar_activo(practica_id)
+        +quitar_activo(practica_id)
+        +encolar_en_lista_espera(practica_id)
+        +desencolar_siguiente_en_espera()
+    }
+    class Institucion {
+        -int id
+        -nombre
+        -direccion
+    }
+    class Grupo {
+        -int id
+        -nombre
+        -Docente docente
+        -Institucion institucion
+        -horario
+    }
+    class Cursada {
+        -int id
+        -Estudiante estudiante
+        -Curso curso
+        -anio
+        -Docente docenteDidactica
+    }
+    class Practica {
+        -int id
+        -Cursada cursada
+        -Institucion institucion
+        -Grupo grupo
+        -Docente docenteAdscriptor
+        -Docente docenteDidactica
+        -estado
+        -asistencias
+        -visitasDidacticas
+        -notaFinal
+        -observaciones
+        +agregar_asistencia(asistencia)
+        +agregar_visita_didactica(visita)
+    }
+    class Asistencia {
+        -int id
+        -fecha
+        -estado
+        -observaciones
+    }
+    class VisitaDidactica {
+        -int id
+        -fecha
+        -observaciones
+        -nota
+        -Docente docenteDidactica
+        -Docente docenteAdscriptor
+        -Docente docenteExtra
+    }
+}
+
+namespace Servicios {
+    class EstudianteService {
+        +crear(nombre, puntuacionEnLista)
+        +obtener_por_id(id)
+        +listar()
+        +buscar(criterio)
+        +actualizar(id, nombre, puntuacionEnLista)
+        +eliminar(id)
+    }
+    class CursoService {
+        +crear(nombre, requiere_docente_adscriptor, requiere_grupo)
+        +obtener_por_id(id)
+        +listar()
+        +buscar(criterio)
+        +actualizar(curso)
+        +eliminar(id)
+    }
+    class DocenteService {
+        +crear(nombre, tipo)
+        +obtener_por_id(id)
+        +listar()
+        +actualizar(docente)
+        +eliminar(id)
+        +asignar_practica(docente_id, practica_id)
+        +liberar_practica(docente_id, practica_id)
+    }
+    class InstitucionService {
+        +crear(nombre, direccion)
+        +obtener_por_id(id)
+        +listar()
+        +buscar_por_nombre(nombre)
+        +actualizar(id, nombre, direccion)
+        +eliminar(id)
+    }
+    class GrupoService {
+        +crear(nombre, docente_id, institucion_id, horario)
+        +obtener_por_id(id)
+        +obtener_por_institucion(institucion_id)
+        +listar()
+        +actualizar(id, horario)
+        +eliminar(id)
+    }
+    class CursadaService {
+        +crear(estudiante_id, curso_id, anio, docente_didactica_id)
+        +obtener_por_id(id)
+        +listar_cursadas_de_estudiante(estudiante_id)
+        +listar()
+        +actualizar(cursada)
+        +eliminar(id)
+    }
+    class PracticaService {
+        +crear(...)
+        +registrar_practica(practica)
+        +registrar_asistencia(practica_id, fecha, estado)
+        +registrar_visita_didactica(...)
+        +finalizar_practica(id, nota_final)
+        +obtener_por_id(id)
+        +listar()
+        +actualizar(practica)
+        +eliminar(id)
+    }
+    class AsistenciaService {
+        +crear(fecha, estado, observaciones)
+        +obtener_por_id(id)
+        +listar()
+        +actualizar(asistencia)
+        +eliminar(id)
+    }
+    class VisitaDidacticaService {
+        +crear(...)
+        +obtener_por_id(id)
+        +listar()
+        +buscar(criterio)
+        +actualizar(visita)
+        +eliminar(id)
+    }
+}
+
+namespace Repositorios {
+    class EstudianteRepository
+    class CursoRepository
+    class DocenteRepository
+    class InstitucionRepository
+    class GrupoRepository
+    class CursadaRepository
+    class PracticaRepository
+    class AsistenciaRepository
+    class VisitaDidacticaRepository
+    class JsonStore {
+        -Path path
+        -Callable serializer
+        -Callable deserializer
+        +agregar(entidad)
+        +crear(entidad)
+        +obtener_por_id(id)
+        +buscar(criterio)
+        +listar()
+        +actualizar(entidad)
+        +eliminar(id)
+        +obtener_proximo_id()
+    }
+}
+
+namespace Estructuras {
+    class Arbol {
+        -Nodo raiz
+        +insertar(clave, dato)
+        +buscar(clave)
+    }
+    class Nodo {
+        -Object clave
+        -Object dato
+        -Nodo izquierda
+        -Nodo derecha
+    }
+}
+
+%% Asociaciones entre entidades del dominio.
+Cursada --> Estudiante : estudiante
+Cursada --> Curso : curso
+Cursada --> Docente : docenteDidactica
+Grupo --> Docente : docente opcional
+Grupo --> Institucion : institucion
+Practica --> Cursada : cursada
+Practica --> Institucion : institucion
+Practica --> Grupo : grupo opcional
+Practica --> Docente : docenteAdscriptor / docenteDidactica opcionales
+Practica --> Asistencia : asistencias
+Practica --> VisitaDidactica : visitasDidacticas
+VisitaDidactica --> Docente : docentes por rol
+
+%% Cada servicio coordina su repositorio; algunos también usan otros servicios.
+EstudianteService ..> EstudianteRepository : usa
+EstudianteService ..> Estudiante : gestiona
+CursoService ..> CursoRepository : usa
+CursoService ..> Curso : gestiona
+DocenteService ..> DocenteRepository : usa
+DocenteService ..> Docente : gestiona
+InstitucionService ..> InstitucionRepository : usa
+InstitucionService ..> GrupoRepository : consulta grupos
+InstitucionService ..> Arbol : búsqueda por nombre
+InstitucionService ..> Institucion : gestiona
+GrupoService ..> GrupoRepository : usa
+GrupoService ..> DocenteService : resuelve docente
+GrupoService ..> InstitucionService : resuelve institución
+GrupoService ..> Grupo : gestiona
+CursadaService ..> CursadaRepository : usa
+CursadaService ..> EstudianteService : resuelve estudiante
+CursadaService ..> CursoService : resuelve curso
+CursadaService ..> DocenteService : resuelve docente
+CursadaService ..> Cursada : gestiona
+PracticaService ..> PracticaRepository : usa
+PracticaService ..> CursadaService : resuelve cursada
+PracticaService ..> DocenteService : asigna docentes
+PracticaService ..> InstitucionService : resuelve institución
+PracticaService ..> GrupoService : resuelve grupo
+PracticaService ..> AsistenciaService : registra asistencia
+PracticaService ..> VisitaDidacticaService : registra visitas
+PracticaService ..> Practica : gestiona
+AsistenciaService ..> AsistenciaRepository : usa
+AsistenciaService ..> Asistencia : gestiona
+VisitaDidacticaService ..> VisitaDidacticaRepository : usa
+VisitaDidacticaService ..> DocenteService : resuelve docentes
+VisitaDidacticaService ..> VisitaDidactica : gestiona
+
+%% Repositorios JSON usan JsonStore y serializan/deserializan sus entidades.
+EstudianteRepository *-- JsonStore
+CursoRepository *-- JsonStore
+DocenteRepository *-- JsonStore
+InstitucionRepository *-- JsonStore
+GrupoRepository *-- JsonStore
+CursadaRepository *-- JsonStore
+PracticaRepository *-- JsonStore
+AsistenciaRepository *-- JsonStore
+VisitaDidacticaRepository *-- JsonStore
+EstudianteRepository ..> Estudiante : serializa / hidrata
+CursoRepository ..> Curso : serializa / hidrata
+DocenteRepository ..> Docente : serializa / hidrata
+InstitucionRepository ..> Institucion : serializa / hidrata
+GrupoRepository ..> Grupo : serializa / hidrata
+CursadaRepository ..> Cursada : serializa / hidrata
+PracticaRepository ..> Practica : serializa / hidrata
+AsistenciaRepository ..> Asistencia : serializa / hidrata
+VisitaDidacticaRepository ..> VisitaDidactica : serializa / hidrata
+
+Arbol *-- "0..1" Nodo : raiz
+Nodo *-- "0..2" Nodo : hijos

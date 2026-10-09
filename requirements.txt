@@ -1,3 +1,4 @@
 # Requisitos del proyecto ProyectoAtlas
 # Instalar con: python -m pip install -r requirements.txt
+
 flet==0.86.5

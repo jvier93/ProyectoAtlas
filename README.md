@@ -1,16 +1,76 @@
 # Proyecto Atlas
 
-Base de dominio para administrar prácticas estudiantiles. El proyecto usa una arquitectura tradicional en capas:
+Proyecto para administrar prácticas estudiantiles con una arquitectura pensada en capas y una interfaz desarrollada con Flet.
 
-- `models/`: entidades anémicas y referencias entre objetos.
-- `services/`: acciones y reglas de negocio.
-- `repositories/`: persistencia local en archivos JSON, sin cachear entidades entre operaciones.
+## Descripción general
 
-Cada repository utiliza siempre un archivo independiente dentro de `data/`. Las
-referencias entre entidades se guardan mediante IDs y se reconstruyen al leer.
+La aplicación gestiona instituciones, grupos, docentes, estudiantes y cursos, manteniendo la lógica de negocio separada de la capa de presentación.
 
-## Apunte - Flujo para select dependientes
+Estructura principal:
 
-- Insitucion se listan con institucion_service
-- Grupos se obtienen con grupo_service, se tiene diponible una funcion obtener_por_institucion(institucion id) para poder obtener los grupos de una institucion
-- El docente de un grupo es opcional. Al obtener los grupos de una institución, las relaciones existentes vienen hidratadas.
+- `domain/`: modelos y servicios del dominio.
+- `views/`: pantallas y formularios de la interfaz Flet.
+- `data/`: almacenamiento local de los datos.
+- `storage/`: archivos auxiliares de almacenamiento.
+- `assets/`: recursos gráficos del proyecto.
+- `docs/`: documentación y diagramas del sistema.
+
+Cada repositorio usa un archivo independiente dentro de `data/` y las relaciones entre entidades se almacenan por IDs para reconstruirse al momento de leer la información.
+
+## Requisitos
+
+- Python 3.10 o superior
+- pip actualizado
+- Entorno virtual recomendado (`.venv`)
+
+## Instalación
+
+1. Clona el repositorio y entra a la carpeta del proyecto:
+
+   ```bash
+   git clone https://github.com/jvier93/ProyectoAtlas.git
+   cd ProyectoAtlas
+   ```
+
+2. Crea y activa un entorno virtual:
+
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+   En Windows PowerShell:
+
+   ```powershell
+   py -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   ```
+
+3. Instala las dependencias del proyecto:
+
+   ```bash
+   python -m pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
+
+## Ejecución
+
+Para levantar la aplicación:
+
+```bash
+python main.py
+```
+
+También puedes usar Flet directamente:
+
+```bash
+flet run main.py
+```
+
+## Documentación
+
+La carpeta de documentación del proyecto es `docs/`.
+
+Dentro de ella se encuentran el diagrama de la app:
+
+- `docs/diagramas/diagrama_clases_actual.mmd`
