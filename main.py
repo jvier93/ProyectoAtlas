@@ -20,6 +20,7 @@ from views.practica_view import construir_vista_practica
 
 def main(page: ft.Page):
     page.title = "ProyectoAtlas"
+    page.window.icon = "assets/icon.png"
     page.padding = 0
     page.bgcolor = ft.Colors.SURFACE
     page.horizontal_alignment = ft.CrossAxisAlignment.STRETCH
